@@ -1,19 +1,27 @@
 <script>
-  export let store
+  export let title = 'Create a Task'
+  export let buttonTitle = 'Save'
+  export let id
+  export let done = false
+  export let description = ''
+  export let onPress
 
-  let done = false
-  let description = ''
+  $: task = { description, id, done }
 
-  function storeTodo () {
-    store.add({ description, done })
-
+  function reset () {
+    id = undefined
     done = false
     description = ''
   }
+
+  function handleClick () {
+    onPress?.(task)
+    reset()
+  }
 </script>
 
-<div class="create-todo box">
-  <h3 class="subtitle is-3">Create a todo</h3>
+<div class="container box">
+  <h3 class="subtitle is-3">{title}</h3>
   
 	<label>
     <span>Description: </span>
@@ -29,13 +37,13 @@
     />
   </label>
 
-  <button class="button is-primary" on:click={storeTodo} aria-label='Remove'>
-    Create
+  <button class="button is-primary" disabled={!onPress} on:click={handleClick} aria-label='Remove'>
+    {buttonTitle}
   </button>
 </div>
 
 <style>
-  .create-todo {
+  .container {
     display: flex;
     flex-direction: column;
     width: fit-content;

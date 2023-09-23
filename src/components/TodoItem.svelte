@@ -3,7 +3,7 @@
 
   /**
    * @type {import('$lib/types').Task}
-   */
+  */
   export let task
   export let store
 
@@ -21,6 +21,10 @@
       />
   
       <span>{task.description}</span>
+ 
+      <button on:click={() => console.log('Update')} aria-label='Update'>
+        Update
+      </button>
   
       <button on:click={handleRemove} aria-label='Remove'>
         Delete

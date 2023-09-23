@@ -1,17 +1,21 @@
 <script>
   import { createTodoStore } from '$lib/api';
-  import CreateTodo from '../components/CreateTodo.svelte';
+  import TodoForm from '../components/TodoForm.svelte';
 
   import TodoList from '../components/TodoList.svelte';
 
-  let todos = createTodoStore([])
+  let store = createTodoStore([])
+
+  function create (task) {
+    store.add(task)
+  }
 </script>
 
 <div>
-  <h1 class="is-size-1 has-text-centered has-text-left-mobile">TODO's with svelt</h1>
+  <h1 class="is-size-1 has-text-white has-text-centered has-text-left-mobile">TODO's with svelt</h1>
 
-  <CreateTodo store={todos} />
+  <TodoForm title='Create a Task' onPress={create}/>
 
-  <TodoList todosStore={todos} />
+  <TodoList todosStore={store} />
 </div>
 

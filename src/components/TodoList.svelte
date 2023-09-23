@@ -1,10 +1,33 @@
 <script>
   import { slide } from 'svelte/transition';
 
+  import TodoForm from './TodoForm.svelte';
+  import Modal from './Modal.svelte';
+
   export let todosStore
 
-  function handleRemove (task) {
-    todosStore.remove(task)
+  let showModal = false
+  let dialogElement
+  
+  $: task = { description: '', done: false, id: null }
+  
+
+  function handleRemove (t) {
+    todosStore.remove(t)
+  }
+
+  function toggleModal () {
+    showModal = !showModal
+  }
+
+  function toggleModalAndSetTask (t) {
+    task = t
+    toggleModal()
+  }
+
+  function update (t) {
+    dialogElement.close()
+    todosStore.update(t)
   }
 </script>
 
@@ -24,20 +47,38 @@
                 <span class="m-1">{task.description || 'Task without description...'}</span>
               </label>
 						</div>
-						        
-            <button class="button is-danger" on:click={() => handleRemove(task)} aria-label='Remove'>
-              Delete
-            </button>
+	         
+            <div>
+              <button class="button is-info" on:click={() => toggleModalAndSetTask(task)} aria-label='Remove'>
+                Update
+              </button>
+             
+              <button class="button is-danger" on:click={() => handleRemove(task)} aria-label='Remove'>
+                Delete
+              </button>
+            </div>  
           </div>
         </li>
       {/each}
     </ul>
 
   {:else}
-    <h2 transition:slide >No Tasks for now...</h2>
+    <h2 class="has-text-white has-text-weight-bold" transition:slide >No Tasks for now...</h2>
   {/if}
-
 </div>
+
+<Modal bind:dialogElement bind:showModal>
+  <h2 slot="header">Update Task</h2>
+  
+  <TodoForm
+    title='Update Task'
+    buttonTitle='Update'
+    onPress={update}
+    id={task?.id}
+    description={task?.description}
+    done={task?.done}
+  />
+</Modal>
 
 <style>
   .margin {
