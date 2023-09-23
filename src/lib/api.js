@@ -29,6 +29,15 @@ export function createTodoStore(initial = []) {
 
 			update($todos => [...$todos, todo])
 		},
+    update: todo => {
+      update($todos => {
+        const index = $todos.findIndex(({ id }) => id === todo.id)
+
+        $todos[ index ] = todo
+        return $todos
+      })
+
+    },
 		remove: todo => {
 			update($todos => $todos.filter(({ id }) => id !== todo.id));
 		},
