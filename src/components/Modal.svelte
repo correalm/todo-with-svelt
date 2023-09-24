@@ -19,8 +19,8 @@
     <slot name="header" />
     
     <hr />
-    <slot />
-  <hr />
+      <slot />
+    <hr />
     
     <button class='button' on:click={() => dialog?.close()}>Cancel</button>
   </div>

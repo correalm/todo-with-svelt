@@ -4,12 +4,12 @@
   import TodoForm from './TodoForm.svelte';
   import Modal from './Modal.svelte';
 
-  /** @type{ import('$lib/types').TodoStore } */
+  /** @type { import('$lib/types').TodoStore } */
   export let todosStore
 
   let showModal = false
 
-  /** @type{ undefined | HTMLDialogElement } */
+  /** @type { undefined | HTMLDialogElement } */
   let dialog
   
   $: task = { description: '', done: false, id: 0 }
@@ -43,7 +43,7 @@
 </script>
 
 <div class="p-5">
-  {#if $todosStore?.length}
+  {#if $todosStore.length}
     <ul transition:slide >
       {#each $todosStore as task (task.id)}
         <li transition:slide class='card margin'>
@@ -53,7 +53,7 @@
                 <input
 							    class="m-1"
                   type="checkbox"
-                  checked={task.done}
+                  bind:checked={task.done}
                 />
                 <span class="m-1">{task.description || 'Task without description...'}</span>
               </label>
@@ -72,7 +72,6 @@
         </li>
       {/each}
     </ul>
-
   {:else}
     <h2 class="has-text-white has-text-weight-bold" transition:slide >No Tasks for now...</h2>
   {/if}
@@ -85,9 +84,7 @@
     title='Update Task'
     buttonTitle='Update'
     onPress={update}
-    id={task?.id}
-    description={task?.description}
-    done={task?.done}
+    {...task}
   />
 </Modal>
 

@@ -1,8 +1,10 @@
 <script>
   export let title = 'Create a Task'
   export let buttonTitle = 'Save'
-  export let done = false
   export let description = ''
+
+  /** @type { boolean } */
+  export let done = false
 
   /** @type { number | undefined } */
   export let id
@@ -33,7 +35,7 @@
     <input class="input" type="text" bind:value={description} />
   </label>
   
-	<label class="checkbox is-flex is-justify-content-center is-align-items-center">
+  <label class="checkbox is-flex is-justify-content-center is-align-items-center">
     <span class="mr-1">Is done?</span>
     <input
       type="checkbox"
