@@ -49,6 +49,13 @@ export function createTodoStore(initial = []) {
         ...$todos.filter((t) => t !== todo),
         { ...todo, done }
       ]);
+    },
+
+    set: todos => {
+      todos.forEach(t => update($todos => [
+        ...$todos.filter((t) => t !== t),
+        { ...t }
+      ]))
     }
   };
 }

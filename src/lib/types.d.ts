@@ -24,4 +24,5 @@ export type TodoStore = {
   update: (todo: Task) => void
   remove: (todo: Task) => void
   mark: (todo: Task, done: boolean) => void
+  set: (todos: Task[]) => void
 }
