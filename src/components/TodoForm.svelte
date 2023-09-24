@@ -1,9 +1,13 @@
 <script>
   export let title = 'Create a Task'
   export let buttonTitle = 'Save'
-  export let id
   export let done = false
   export let description = ''
+
+  /** @type { number | undefined } */
+  export let id
+
+  /** @type { function | undefined } */
   export let onPress
 
   $: task = { description, id, done }

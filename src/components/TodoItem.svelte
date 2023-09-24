@@ -1,10 +1,10 @@
 <script>
-    import { fade } from 'svelte/transition';
-
   /**
    * @type {import('$lib/types').Task}
   */
   export let task
+
+  /** @type{ import('$lib/types').TodoStore } */
   export let store
 
   function handleRemove () {

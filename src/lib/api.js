@@ -1,34 +1,36 @@
-import { writable } from 'svelte/store';
+ import { writable } from 'svelte/store';
 
 /**
  * 
- * @param {import('./types').Todos | []} initial 
- * @returns void
+ * @param initial { import('./types').Todos | [] } 
+ * @returns { import('./types').TodoStore }
  */
 export function createTodoStore(initial = []) {
-	let uid = 1;
+  let uid = 1;
 
-	const todos = initial.map(({ done, description }) => {
-		return {
-			id: uid++,
-			done,
-			description
-		};
-	});
+  const todos = initial.map(({ done, description }) => {
+    return {
+      id: uid++,
+      done,
+      description
+    };
+  });
 
-	const { subscribe, update } = writable(todos);
+  const { subscribe, update } = writable(todos);
 
-	return {
-		subscribe,
-		add: ({ description = '', done = false}) => {
-			const todo = {
-				id: uid++,
-				done: done,
-				description
-			};
+  return {
+    subscribe,
 
-			update($todos => [...$todos, todo])
-		},
+    add: ({ description = '', done = false}) => {
+      const todo = {
+        id: uid++,
+        done: done,
+        description
+      };
+
+      update($todos => [...$todos, todo])
+    },
+
     update: todo => {
       update($todos => {
         const index = $todos.findIndex(({ id }) => id === todo.id)
@@ -36,16 +38,17 @@ export function createTodoStore(initial = []) {
         $todos[ index ] = todo
         return $todos
       })
-
     },
-		remove: todo => {
-			update($todos => $todos.filter(({ id }) => id !== todo.id));
-		},
-		mark: (todo, done) => {
-			update($todos => [
-				...$todos.filter((t) => t !== todo),
-				{ ...todo, done }
-			]);
-		}
-	};
+
+    remove: todo => {
+      update($todos => $todos.filter(({ id }) => id !== todo.id));
+    },
+
+    mark: (todo, done) => {
+      update($todos => [
+        ...$todos.filter((t) => t !== todo),
+        { ...todo, done }
+      ]);
+    }
+  };
 }

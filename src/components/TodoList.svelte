@@ -4,14 +4,19 @@
   import TodoForm from './TodoForm.svelte';
   import Modal from './Modal.svelte';
 
+  /** @type{ import('$lib/types').TodoStore } */
   export let todosStore
 
   let showModal = false
-  let dialogElement
-  
-  $: task = { description: '', done: false, id: null }
-  
 
+  /** @type{ undefined | HTMLDialogElement } */
+  let dialog
+  
+  $: task = { description: '', done: false, id: 0 }
+  
+  /**
+    * @param t { import('$lib/types').Task }
+  */
   function handleRemove (t) {
     todosStore.remove(t)
   }
@@ -19,14 +24,20 @@
   function toggleModal () {
     showModal = !showModal
   }
-
+  
+  /**
+    * @param t { import('$lib/types').Task }
+  */
   function toggleModalAndSetTask (t) {
     task = t
     toggleModal()
   }
-
+  
+  /**
+    * @param t { import('$lib/types').Task }
+  */
   function update (t) {
-    dialogElement.close()
+    dialog?.close()
     todosStore.update(t)
   }
 </script>
@@ -67,7 +78,7 @@
   {/if}
 </div>
 
-<Modal bind:dialogElement bind:showModal>
+<Modal bind:dialog bind:showModal>
   <h2 slot="header">Update Task</h2>
   
   <TodoForm
